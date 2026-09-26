@@ -4,7 +4,7 @@ import Link from "next/link";
 export default function Navbar() {
   return (
     <header className="border-b border-[var(--border)]">
-      <div className="mx-auto flex h-16 max-w-[1184px] items-center justify-between px-6">
+      <div className="mx-auto flex h-20 max-w-[1184px] items-center justify-between px-6">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
           <Image
