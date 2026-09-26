@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { FitLogProvider } from "@/context/FitLogContext";
 
 const oswald = Oswald({
   subsets: ["latin"],
@@ -24,9 +25,11 @@ export default function RootLayout({
   return (
     <html lang="en" className={oswald.variable} data-scroll-behavior="smooth">
       <body className="flex min-h-screen flex-col">
-        <Navbar />
-        <div className="flex-1">{children}</div>
-        <Footer />
+        <FitLogProvider>
+          <Navbar />
+          <div className="flex-1">{children}</div>
+          <Footer />
+        </FitLogProvider>
       </body>
     </html>
   );

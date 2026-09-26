@@ -10,15 +10,15 @@ export default function WorkoutCard({ workout }: WorkoutCardProps) {
   return (
     <Link
       href={`/workouts/${workout.id}`}
-      className="group overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--surface)] transition hover:border-[#3a414d]"
+      className="rounded-xl border border-[var(--border)] bg-[var(--surface)] transition hover:border-[var(--accent)]"
     >
       {/* Image */}
-      <div className="relative aspect-[16/9] overflow-hidden">
+      <div className="relative aspect-[16/9] overflow-hidden rounded-t-xl">
         <Image
           src={workout.image}
           alt={workout.name}
           fill
-          className="object-cover transition duration-300 group-hover:scale-105"
+          className="object-cover"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
       </div>
