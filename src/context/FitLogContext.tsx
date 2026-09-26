@@ -13,6 +13,7 @@ import type { Workout } from "@/types/workout";
 interface FitLogContextType {
   plan: Workout[];
   saved: Workout[];
+  doneIds: number[];
 
   addToPlan: (workout: Workout) => void;
   removeFromPlan: (id: number) => void;
@@ -20,8 +21,11 @@ interface FitLogContextType {
   saveWorkout: (workout: Workout) => void;
   removeFromSaved: (id: number) => void;
 
+  markAsDone: (id: number) => void;
+
   isInPlan: (id: number) => boolean;
   isSaved: (id: number) => boolean;
+  isDone: (id: number) => boolean;
 }
 
 const FitLogContext = createContext<FitLogContextType | undefined>(
@@ -35,10 +39,12 @@ export function FitLogProvider({
 }) {
   const [plan, setPlan] = useState<Workout[]>([]);
   const [saved, setSaved] = useState<Workout[]>([]);
+  const [doneIds, setDoneIds] = useState<number[]>([]);
 
   useEffect(() => {
     const storedPlan = localStorage.getItem("fitlog-plan");
     const storedSaved = localStorage.getItem("fitlog-saved");
+    const storedDone = localStorage.getItem("fitlog-done");
 
     if (storedPlan) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -47,6 +53,10 @@ export function FitLogProvider({
 
     if (storedSaved) {
       setSaved(JSON.parse(storedSaved));
+    }
+
+    if (storedDone) {
+      setDoneIds(JSON.parse(storedDone));
     }
   }, []);
 
@@ -57,6 +67,10 @@ export function FitLogProvider({
   useEffect(() => {
     localStorage.setItem("fitlog-saved", JSON.stringify(saved));
   }, [saved]);
+
+  useEffect(() => {
+    localStorage.setItem("fitlog-done", JSON.stringify(doneIds));
+  }, [doneIds]);
 
   const addToPlan = (workout: Workout) => {
     setPlan((currentPlan) => {
@@ -76,6 +90,10 @@ export function FitLogProvider({
     setPlan((currentPlan) =>
       currentPlan.filter((item) => item.id !== id)
     );
+
+    setDoneIds((currentDone) =>
+      currentDone.filter((doneId) => doneId !== id)
+    );
   };
 
   const saveWorkout = (workout: Workout) => {
@@ -94,6 +112,16 @@ export function FitLogProvider({
     );
   };
 
+  const markAsDone = (id: number) => {
+    setDoneIds((currentDone) => {
+      if (currentDone.includes(id)) {
+        return currentDone;
+      }
+
+      return [...currentDone, id];
+    });
+  };
+
   const isInPlan = (id: number) => {
     return plan.some((item) => item.id === id);
   };
@@ -102,17 +130,24 @@ export function FitLogProvider({
     return saved.some((item) => item.id === id);
   };
 
+  const isDone = (id: number) => {
+    return doneIds.includes(id);
+  };
+
   return (
     <FitLogContext.Provider
       value={{
         plan,
         saved,
+        doneIds,
         addToPlan,
         removeFromPlan,
         saveWorkout,
         removeFromSaved,
+        markAsDone,
         isInPlan,
         isSaved,
+        isDone,
       }}
     >
       {children}
