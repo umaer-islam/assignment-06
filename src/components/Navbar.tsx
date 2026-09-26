@@ -2,10 +2,20 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useFitLog } from "@/context/FitLogContext";
+
+const baseLinkClass =
+  "rounded-full px-5 py-2 text-sm transition hover:text-white";
+
+const activeLinkClass = "bg-[#1A2312] text-[#C2F800]";
 
 export default function Navbar() {
   const { plan, saved } = useFitLog();
+  const pathname = usePathname();
+
+  const onHome = pathname === "/";
+  const onMyPlan = pathname.startsWith("/my-plan");
   return (
     <header className="border-b border-[var(--border)]">
       <div className="mx-auto flex h-20 max-w-[1184px] items-center justify-between px-6">
@@ -25,14 +35,22 @@ export default function Navbar() {
         <nav className="flex items-center gap-2">
           <Link
             href="/"
-            className="rounded-full px-5 py-2 text-sm text-[var(--muted)] transition hover:text-white"
+            className={`${baseLinkClass} ${
+              onHome
+                ? activeLinkClass
+                : "text-[var(--muted)]"
+            }`}
           >
             Workouts
           </Link>
 
           <Link
             href="/my-plan"
-            className="rounded-full px-5 py-2 text-sm text-[var(--muted)] transition hover:bg-[#182308] hover:text-[var(--accent)]"
+            className={`${baseLinkClass} ${
+              onMyPlan
+                ? activeLinkClass
+                : "text-[var(--muted)] hover:bg-[#182308] hover:text-[var(--accent)]"
+            }`}
           >
             My Plan
           </Link>
