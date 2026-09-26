@@ -18,9 +18,9 @@ export default function Navbar() {
   const onMyPlan = pathname.startsWith("/my-plan");
   return (
     <header className="border-b border-[var(--border)]">
-      <div className="mx-auto flex h-20 max-w-[1184px] items-center justify-between px-6">
+      <div className="mx-auto flex max-w-[1184px] flex-wrap items-center justify-between gap-x-4 gap-y-2 px-6 py-4 md:h-20 md:flex-nowrap md:gap-0 md:py-0">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2">
+        <Link href="/" className="flex shrink-0 items-center gap-2">
           <Image
             src="/images/fitlog-logo.png"
             alt="FitLog"
@@ -32,7 +32,7 @@ export default function Navbar() {
         </Link>
 
         {/* Navigation */}
-        <nav className="flex items-center gap-2">
+        <nav className="order-last flex w-full items-center justify-center gap-2 md:order-none md:w-auto md:justify-start">
           <Link
             href="/"
             className={`${baseLinkClass} ${
@@ -57,7 +57,7 @@ export default function Navbar() {
         </nav>
 
         {/* Counters */}
-        <div className="flex items-center gap-6 text-sm">
+        <div className="order-2 flex items-center gap-4 text-sm md:order-none md:gap-6">
           <Link href="/my-plan" className="flex items-center gap-2">
             <span className="text-[var(--muted)]">Plan</span>
             <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-[var(--accent)] px-1.5 text-xs font-bold text-black">

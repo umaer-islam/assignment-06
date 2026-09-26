@@ -35,7 +35,7 @@ export default function PlanExerciseCard({
       }`}
     >
       {/* Image */}
-      <div className="relative h-20 w-36 shrink-0 overflow-hidden rounded-lg bg-[#111419]">
+      <div className="relative h-44 w-full shrink-0 overflow-hidden rounded-lg bg-[#111419] sm:h-20 sm:w-36">
         <Image
           src={workout.image}
           alt={workout.name}

@@ -51,7 +51,7 @@ export default function WorkoutCard({ workout }: WorkoutCardProps) {
         <div className="my-4 h-px bg-[var(--border)]" />
 
         {/* Stats */}
-        <div className="flex items-center gap-4 text-xs text-[var(--muted)]">
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-[var(--muted)]">
           <span>◷ {workout.duration} min</span>
           <span>♨ {workout.caloriesBurned} kcal</span>
           <span>☆ {workout.rating}</span>

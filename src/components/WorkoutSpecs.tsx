@@ -20,13 +20,13 @@ export default function WorkoutSpecs({ workout }: WorkoutSpecsProps) {
       {rows.map(([label, value]) => (
         <div
           key={label}
-          className="flex items-center justify-between border-b border-[#252a33] px-5 py-3 last:border-b-0"
+          className="flex items-center justify-between gap-4 border-b border-[#252a33] px-5 py-3 last:border-b-0"
         >
           <span className="text-[11px] uppercase tracking-wide text-[var(--muted)]">
             {label}
           </span>
 
-          <span className="text-sm font-medium">{value}</span>
+          <span className="text-right text-sm font-medium">{value}</span>
         </div>
       ))}
     </div>
