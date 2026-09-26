@@ -1,3 +1,4 @@
+import { notFound } from "next/navigation";
 import { Workout } from "@/types/workout";
 
 const API_URL = "https://api.api-store.workers.dev/api/fitlog";
@@ -6,9 +7,11 @@ const MAX_ATTEMPTS = 3;
 
 async function fetchFromApi<T>(
   path: string,
-  errorMessage: string
+  errorMessage: string,
+  onNotFound?: () => void
 ): Promise<T> {
   let lastError: unknown;
+  let missing = false;
 
   for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
     try {
@@ -18,6 +21,11 @@ async function fetchFromApi<T>(
 
       if (response.ok) {
         return response.json();
+      }
+
+      if (response.status === 404) {
+        missing = true;
+        break;
       }
 
       lastError = new Error(errorMessage);
@@ -34,6 +42,10 @@ async function fetchFromApi<T>(
     }
   }
 
+  if (missing && onNotFound) {
+    onNotFound();
+  }
+
   throw lastError instanceof Error
     ? lastError
     : new Error(errorMessage);
@@ -44,5 +56,9 @@ export async function getWorkouts(): Promise<Workout[]> {
 }
 
 export async function getWorkout(id: string): Promise<Workout> {
-  return fetchFromApi<Workout>(`/${id}`, "Workout not found");
+  return fetchFromApi<Workout>(
+    `/${id}`,
+    "Workout not found",
+    () => notFound()
+  );
 }

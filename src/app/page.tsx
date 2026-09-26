@@ -1,9 +1,11 @@
+import { Suspense } from "react";
 import Hero from "@/components/Hero";
 import WorkoutLibrary from "@/components/WorkoutLibrary";
+import LoadingWorkouts from "@/components/LoadingWorkouts";
 import { getWorkouts } from "@/lib/api";
 import type { Workout } from "@/types/workout";
 
-export default async function Home() {
+async function Library() {
   let workouts: Workout[] = [];
   let loadFailed = false;
 
@@ -13,10 +15,16 @@ export default async function Home() {
     loadFailed = true;
   }
 
+  return <WorkoutLibrary workouts={workouts} loadFailed={loadFailed} />;
+}
+
+export default function Home() {
   return (
     <main className="min-h-screen">
       <Hero />
-      <WorkoutLibrary workouts={workouts} loadFailed={loadFailed} />
+      <Suspense fallback={<LoadingWorkouts />}>
+        <Library />
+      </Suspense>
     </main>
   );
 }
