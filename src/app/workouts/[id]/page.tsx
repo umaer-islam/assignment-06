@@ -54,7 +54,7 @@ export default async function WorkoutDetailsPage({
 
           <WorkoutSpecs workout={workout} />
           <WorkoutInstructions instructions={workout.instructions} />
-          <WorkoutActions />
+          <WorkoutActions workout={workout} />
         </div>
       </div>
     </main>
