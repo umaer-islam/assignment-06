@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useFitLog } from "@/context/FitLogContext";
+import toast from "react-hot-toast";
 
 import type { Workout } from "@/types/workout";
 
@@ -23,9 +24,18 @@ export default function PlanExerciseCard({
   const handleRemove = () => {
     if (showDone) {
       removeFromPlan(workout.id);
+      toast.success("Removed from today's plan");
     } else {
       removeFromSaved(workout.id);
+      toast.success("Removed from saved");
     }
+  };
+
+  const handleMarkDone = () => {
+    if (completed) return;
+
+    markAsDone(workout.id);
+    toast.success("Marked as done");
   };
 
   return (
@@ -82,7 +92,7 @@ export default function PlanExerciseCard({
 
         {showDone && (
           <button
-            onClick={() => markAsDone(workout.id)}
+            onClick={handleMarkDone}
             disabled={completed}
             className="rounded-full bg-[#CCFF00] px-4 py-2 text-xs font-bold uppercase text-black transition hover:brightness-90 disabled:cursor-not-allowed disabled:opacity-60"
           >
