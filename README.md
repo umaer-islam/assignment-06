@@ -1,4 +1,4 @@
-# FitLog — Workout Library
+# FitLog  Workout Library
 
 A dark, no-nonsense gym companion for logging your training. Browse a library of lifts, check the details of each exercise, and lock up to five workouts into today's plan — everything persists locally, so your plan is waiting when you come back.
 
