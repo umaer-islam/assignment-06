@@ -5,29 +5,22 @@ import Link from "next/link";
 import { useFitLog } from "@/context/FitLogContext";
 import PlanStats from "@/components/PlanStats";
 import PlanExerciseCard from "@/components/PlanExerciseCard";
+import SortDropdown from "@/components/SortDropdown";
 import type { Workout } from "@/types/workout";
 
-type SortKey =
-  | "duration-asc"
-  | "duration-desc"
-  | "calories-asc"
-  | "rating-desc";
+type SortKey = "duration" | "calories" | "rating";
 
-const sorters: Record<
-  SortKey,
-  (a: Workout, b: Workout) => number
-> = {
-  "duration-asc": (a, b) => a.duration - b.duration,
-  "duration-desc": (a, b) => b.duration - a.duration,
-  "calories-asc": (a, b) => a.caloriesBurned - b.caloriesBurned,
-  "rating-desc": (a, b) => b.rating - a.rating,
+const sorters: Record<SortKey, (a: Workout, b: Workout) => number> = {
+  duration: (a, b) => a.duration - b.duration,
+  calories: (a, b) => a.caloriesBurned - b.caloriesBurned,
+  rating: (a, b) => b.rating - a.rating,
 };
 
 export default function MyPlanPage() {
   const { plan, saved } = useFitLog();
 
   const [activeTab, setActiveTab] = useState<"plan" | "saved">("plan");
-  const [sortKey, setSortKey] = useState<SortKey>("duration-asc");
+  const [sortKey, setSortKey] = useState<SortKey>("duration");
 
   const source = activeTab === "plan" ? plan : saved;
 
@@ -94,16 +87,15 @@ export default function MyPlanPage() {
             Sort By
           </span>
 
-          <select
+          <SortDropdown
             value={sortKey}
-            onChange={(event) => setSortKey(event.target.value as SortKey)}
-            className="rounded-lg border border-[#343A45] bg-[#15181E] px-4 py-2.5 text-sm text-white outline-none transition hover:border-[#CCFF00]"
-          >
-            <option value="duration-asc">Duration: Low → High</option>
-            <option value="duration-desc">Duration: High → Low</option>
-            <option value="calories-asc">Calories: Low → High</option>
-            <option value="rating-desc">Rating: High → Low</option>
-          </select>
+            onChange={(value) => setSortKey(value as SortKey)}
+            options={[
+              { value: "duration", label: "Duration" },
+              { value: "calories", label: "Calories" },
+              { value: "rating", label: "Rating" },
+            ]}
+          />
         </div>
       </div>
 
